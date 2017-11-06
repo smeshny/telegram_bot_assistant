@@ -2,3 +2,6 @@
 config.py
 bin
 lib
+pip-selfcheck.json
+__pycache__
+coinmarketcap_cache.sqlite
