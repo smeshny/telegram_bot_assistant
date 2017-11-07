@@ -80,7 +80,12 @@ def sticker_deleter(message):
 
 @bot.message_handler(func=lambda m: True)
 def get_price(message):
-    bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
+    if message.text[0] != '/':
+        pass
+    if cmc_api.get_markets(message.text[1:]) == 'Такой команды или валюты нету':
+        bot.send_message(message.chat.id, 'Такой команды или валюты нету')
+    else:
+        bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
 
 
 if __name__ == '__main__':
