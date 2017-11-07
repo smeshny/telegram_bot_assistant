@@ -5,6 +5,7 @@ import time
 import cmc_api
 import random
 import TextFiles
+from telebot import AsyncTeleBot
 from multiprocessing import Process
 
 
@@ -33,7 +34,7 @@ def go_coin_market_cap(message):
 
 
 @bot.message_handler(commands=['vital'])
-def get_market(message):
+def vital_check(message):
     bot.send_message(message.chat.id, '@spielbergos - Спилбергос стивенушечка!')
     quote = random.choice(TextFiles.quotes)
     bot.send_message(message.chat.id, '``` ' + quote + ' ```', parse_mode='Markdown')
@@ -48,12 +49,7 @@ def get_market(message):
 
 @bot.message_handler(commands=['market'])
 def get_market(message):
-    if message.text[0] == '/':
-        time.sleep(1)
-        bot.delete_message(message.chat.id, message.message_id)
-    temp = bot.send_message(message.chat.id, cmc_api.get_market())
-    time.sleep(15)
-    bot.delete_message(message.chat.id, temp.message_id)
+    bot.send_message(message.chat.id, cmc_api.get_market())
 
 
 def bitcoin_checker():
@@ -84,24 +80,11 @@ def sticker_deleter(message):
 
 @bot.message_handler(func=lambda m: True)
 def get_price(message):
-    if cmc_api.get_markets(message.text[1:]) == 'Такой команды или валюты нету':
-        pass
-    else:
-        temp = bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
-        time.sleep(15)
-        bot.delete_message(message.chat.id, temp.message_id)
-    if message.text[0] == '/':
-        time.sleep(1)
-        bot.delete_message(message.chat.id, message.message_id)
+    bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
 
 
 if __name__ == '__main__':
-    m1 = Process(target=bitcoin_checker)
-    # m2 = Process(target=bot_polling)
-    m1.start()
-    # m2.start()
-    # m1.join()
-    # m2.join()
+    Process(target=bitcoin_checker).start()
     bot.polling(none_stop=True)
 
 
