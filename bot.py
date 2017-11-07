@@ -5,7 +5,6 @@ import time
 import cmc_api
 import random
 import TextFiles
-from telebot import AsyncTeleBot
 from multiprocessing import Process
 
 
@@ -52,6 +51,21 @@ def get_market(message):
     bot.send_message(message.chat.id, cmc_api.get_market())
 
 
+@bot.message_handler(func=lambda message: True, content_types=['sticker'])
+def sticker_deleter(message):
+    sticker = message.message_id
+    time.sleep(22)
+    bot.delete_message(message.chat.id, sticker)
+
+
+@bot.message_handler(func=lambda m: True)
+def get_price(message):
+    if message.text[0] != '/':
+        pass
+    else:
+        bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
+
+
 def bitcoin_checker():
     while True:
         try:
@@ -71,27 +85,13 @@ def bitcoin_checker():
             continue
 
 
-@bot.message_handler(func=lambda message: True, content_types=['sticker'])
-def sticker_deleter(message):
-    sticker = message.message_id
-    time.sleep(22)
-    bot.delete_message(message.chat.id, sticker)
-
-
-@bot.message_handler(func=lambda m: True)
-def get_price(message):
-    if message.text[0] != '/':
-        pass
-    if cmc_api.get_markets(message.text[1:]) == 'Такой команды или валюты нету':
-        bot.send_message(message.chat.id, 'Такой команды или валюты нету')
-    else:
-        bot.send_message(message.chat.id, cmc_api.get_markets(message.text[1:]))
-
-
 if __name__ == '__main__':
-    Process(target=bitcoin_checker).start()
-    bot.polling(none_stop=True)
+    bit_check = Process(target=bitcoin_checker)
+    bit_check.start()
 
+    bot.polling(none_stop=True)
+    bit_check.terminate()
+    bit_check.join()
 
 '''
 menu - вызвать меню
