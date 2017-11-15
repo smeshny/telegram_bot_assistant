@@ -34,3 +34,11 @@ def get_market():
            'Active currencies: ' + str(int(request['active_currencies']))
 
 
+def get_market_cap():
+    try:
+        coinmarketcap = Market()
+    except:
+        return 'Неполадки на сервере coinmarketcap'
+    request = coinmarketcap.stats()
+    return 'Market Cap: ' + str(round(request['total_market_cap_usd'] / 1000000000, 3)) + ' B'
+

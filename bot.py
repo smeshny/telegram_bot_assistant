@@ -12,13 +12,13 @@ bot = telebot.TeleBot(config.TOKEN)
 
 
 @bot.message_handler(commands=['menu'])
-def get_market1(message):
+def menu(message):
     markup = types.ReplyKeyboardMarkup(True, False)
     itembtn1 = types.KeyboardButton('/market')
-    itembtn2 = types.KeyboardButton('/ETH')
-    itembtn3 = types.KeyboardButton('/BTC')
-    itembtn4 = types.KeyboardButton('/LTC')
-    itembtn5 = types.KeyboardButton('/ETC')
+    itembtn2 = types.KeyboardButton('/BTC')
+    itembtn3 = types.KeyboardButton('/ETH')
+    itembtn4 = types.KeyboardButton('/BCH')
+    itembtn5 = types.KeyboardButton('/XMR')
     itembtn6 = types.KeyboardButton('/DCR')
     markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6)
     bot.send_message(message.chat.id, "Push the button", reply_markup=markup)
@@ -32,15 +32,14 @@ def go_coin_market_cap(message):
     bot.send_message(message.chat.id, "Push the button", reply_markup=keyboard)
 
 
-@bot.message_handler(commands=['vital'])
-def vital_check(message):
-    bot.send_message(message.chat.id, '@spielbergos - Спилбергос стивенушечка!')
+@bot.message_handler(commands=['idea'])
+def get_idea(message):
     quote = random.choice(TextFiles.quotes)
     bot.send_message(message.chat.id, '``` ' + quote + ' ```', parse_mode='Markdown')
 
 
 @bot.message_handler(commands=['coinflip'])
-def get_market(message):
+def coin_flip(message):
     sequence = ['Орёл', 'Решка']
     r = random.choice(sequence)
     bot.send_message(message.chat.id, r)
@@ -72,12 +71,13 @@ def bitcoin_checker():
             price = int((float((cmc_api.get_markets('BTC'))[20:28])) / 100)
             time.sleep(305)
             new_price = int((float((cmc_api.get_markets('BTC'))[20:28])) / 100)
+            market_cap_now = cmc_api.get_market_cap()
             if new_price > price:
                 what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='``` ' + what + ' ```', parse_mode='Markdown')
+                bot.send_message(chat_id=-1001081308494, text='``` ' + what + '\n' + market_cap_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
                 what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='``` ' + what + ' ```', parse_mode='Markdown')
+                bot.send_message(chat_id=-1001081308494, text='``` ' + what + '\n' + market_cap_now + ' ```', parse_mode='Markdown')
             else:
                 continue
         except:
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
 '''
 menu - вызвать меню
-vital - вызвать виталика
+idea - получить умную мысль
 cap - перейти на coinmarketcap.com
 coinflip - бросить монетку
 market - узнать капитализацию
