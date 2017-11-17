@@ -74,10 +74,10 @@ def bitcoin_checker():
             market_cap_now = cmc_api.get_market_cap()
             if new_price > price:
                 what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='```' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
                 what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='```' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             else:
                 continue
         except:
