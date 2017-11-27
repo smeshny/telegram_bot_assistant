@@ -1,7 +1,6 @@
 import random
 import asyncio
-from multiprocessing import Process
-import time
+
 
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
@@ -91,14 +90,13 @@ async def bitcoin_checker():
 
 
 if __name__ == '__main__':
-    bit_check = Process(target=bitcoin_checker)
-    bit_check.start()
+    bit_check = asyncio.get_event_loop()
+    process = bit_check.create_task(bitcoin_checker())
     executor.start_polling(dp)
-    bit_check.terminate()
-    bit_check.join()
+    bit_check.close()
 
 '''
-menu - вызвать меню
+menu - вызвать меню 
 idea - получить умную мысль
 coinflip - бросить монетку
 cap - узнать капитализацию
