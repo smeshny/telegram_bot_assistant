@@ -70,23 +70,23 @@ async def get_price(message: types.Message):
         await bot.delete_message(chat_id=message.chat.id, message_id=temp.message_id)
 
 
-def bitcoin_checker():
+async def bitcoin_checker():
     while True:
         try:
             price = int((float((cmc_api.get_markets('BTC'))[20:28])) / 100)
-            time.sleep(305)
+            await asyncio.sleep(305)
             new_price = int((float((cmc_api.get_markets('BTC'))[20:28])) / 100)
             market_cap_now = cmc_api.get_market_cap()
             if new_price > price:
                 what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
                 what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str((cmc_api.get_markets('BTC'))[20:28])
-                bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             else:
                 continue
         except:
-            time.sleep(305)
+            await asyncio.sleep(305)
             continue
 
 
