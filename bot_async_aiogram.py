@@ -104,14 +104,16 @@ async def bitcoin_checker():
             market_cap_now = cmc_api.get_market_cap()
             if new_price > price:
                 what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
-                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + "\n " +
+                                                                    market_cap_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
                 what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
-                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+                await bot.send_message(chat_id=-1001081308494, text='``` ' + what + "\n " +
+                                                                    market_cap_now + ' ```', parse_mode='Markdown')
             else:
                 continue
         except Exception as e:
-            await bot.send_message(chat_id=-1001081308494, text=e)
+            await bot.send_message(chat_id=-1001081308494, text="Error checker: " + str(e))
             await asyncio.sleep(305)
             continue
 
