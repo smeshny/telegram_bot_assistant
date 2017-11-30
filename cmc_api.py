@@ -42,3 +42,16 @@ def get_market_cap():
     request = coinmarketcap.stats()
     return 'Market Cap: ' + str(round(request['total_market_cap_usd'] / 1000000000, 3)) + ' B'
 
+
+def bitcoin_usd():
+    try:
+        coinmarketcap = Market()
+    except:
+        return 'Неполадки на сервере coinmarketcap'
+    get_m = coinmarketcap.ticker(limit=900, convert='USD')
+    for i in get_m:
+        if i['symbol'] == "BTC":
+            return i['price_usd']
+        else:
+            continue
+    return 'Такой команды или валюты нету'

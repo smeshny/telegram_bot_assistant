@@ -69,22 +69,49 @@ async def get_price(message: types.Message):
         await bot.delete_message(chat_id=message.chat.id, message_id=temp.message_id)
 
 
+# Test version for smeshny2bot
+# async def bitcoin_checker():
+#     while True:
+#         try:
+#             await bot.send_message(chat_id=-1001117436587, text="working")
+#             price = int((float(cmc_api.bitcoin_usd())) / 100)
+#             await bot.send_message(chat_id=-1001117436587, text="working price")
+#             await asyncio.sleep(3)
+#             new_price = int((float(cmc_api.bitcoin_usd())) / 100)
+#             await bot.send_message(chat_id=-1001117436587, text="working new price")
+#             market_cap_now = cmc_api.get_market_cap()
+#             await bot.send_message(chat_id=-1001117436587, text="working cap")
+#             if new_price > price:
+#                 what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
+#                 await bot.send_message(chat_id=-1001117436587, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+#             elif new_price < price:
+#                 what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
+#                 await bot.send_message(chat_id=-1001117436587, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
+#             else:
+#                 continue
+#         except Exception as e:
+#             await bot.send_message(chat_id=-1001117436587, text=e)
+#             await asyncio.sleep(3)
+#             continue
+
+# prod version
 async def bitcoin_checker():
     while True:
         try:
-            price = int((float((await cmc_api.get_markets('BTC'))[20:28])) / 100)
+            price = int((float(cmc_api.bitcoin_usd())) / 100)
             await asyncio.sleep(305)
-            new_price = int((float((await cmc_api.get_markets('BTC'))[20:28])) / 100)
-            market_cap_now = await cmc_api.get_market_cap()
+            new_price = int((float(cmc_api.bitcoin_usd())) / 100)
+            market_cap_now = cmc_api.get_market_cap()
             if new_price > price:
-                what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str((await cmc_api.get_markets('BTC'))[20:28])
+                what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
                 await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
-                what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str((await cmc_api.get_markets('BTC'))[20:28])
+                what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
                 await bot.send_message(chat_id=-1001081308494, text='``` ' + what + market_cap_now + ' ```', parse_mode='Markdown')
             else:
                 continue
-        except:
+        except Exception as e:
+            await bot.send_message(chat_id=-1001081308494, text=e)
             await asyncio.sleep(305)
             continue
 
