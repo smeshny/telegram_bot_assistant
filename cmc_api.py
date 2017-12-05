@@ -55,3 +55,17 @@ def bitcoin_usd():
         else:
             continue
     return 'Такой команды или валюты нету'
+
+
+def eth_usd():
+    try:
+        coinmarketcap = Market()
+    except:
+        return 'Неполадки на сервере coinmarketcap'
+    get_m = coinmarketcap.ticker(limit=900, convert='USD')
+    for i in get_m:
+        if i['symbol'] == "ETH":
+            return "*ETH: *" + i['price_usd'] + " USD" + i['price_btc'] + " BTC"
+        else:
+            continue
+    return 'Такой команды или валюты нету'
