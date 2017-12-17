@@ -98,17 +98,17 @@ async def get_price(message: types.Message):
 async def bitcoin_checker():
     while True:
         try:
-            price = int((float(cmc_api.bitcoin_usd())) / 100)
+            price = int((float(cmc_api.bitcoin_usd())) / 500)
             await asyncio.sleep(305)
-            new_price = int((float(cmc_api.bitcoin_usd())) / 100)
+            new_price = int((float(cmc_api.bitcoin_usd())) / 500)
             market_cap_now = cmc_api.get_market_cap()
             eth_now = cmc_api.eth_usd()
             if new_price > price:
-                what = 'Биток пробил ' + str(new_price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
+                what = 'Биток пробил ' + str(new_price * 500) + '. Цена: ' + str(cmc_api.bitcoin_usd())
                 await bot.send_message(chat_id=-1001081308494, text='``` ' + what + "\n " +
                                                                     market_cap_now + "\n " + eth_now + ' ```', parse_mode='Markdown')
             elif new_price < price:
-                what = 'Биток упал ниже ' + str(price * 100) + '. Цена: ' + str(cmc_api.bitcoin_usd())
+                what = 'Биток упал ниже ' + str(price * 500) + '. Цена: ' + str(cmc_api.bitcoin_usd())
                 await bot.send_message(chat_id=-1001081308494, text='``` ' + what + "\n " +
                                                                     market_cap_now + "\n " + eth_now + ' ```', parse_mode='Markdown')
             else:
