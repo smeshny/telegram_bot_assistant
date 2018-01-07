@@ -114,7 +114,7 @@ async def bitcoin_checker():
             else:
                 continue
         except Exception as e:
-            await bot.send_message(chat_id=-1001081308494, text="Error checker: " + str(e))
+            # await bot.send_message(chat_id=-1001081308494, text="Error checker: " + str(e))
             await asyncio.sleep(305)
             continue
 
